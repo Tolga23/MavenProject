@@ -8,7 +8,6 @@ public class JdbcApp {
         Statement stmt = null;
         ResultSet rs = null;
 
-
         try {
             // Load the JDBC driver
             Class.forName("com.mysql.jdbc.Driver");
