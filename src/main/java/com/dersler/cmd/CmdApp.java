@@ -19,9 +19,8 @@ public class CmdApp {
 
             if (cmd[0].equals("cd"))            startPath = Commands.changeDirectory(startPath,userInput);
             else if(cmd[0].equals("dir"))       Commands.listCommand(file);
-            else if(cmd[0].equals("mkdir")){
-
-            }
+            else if(cmd[0].equals("rmv"))       Commands.remove(file,cmd[1]);
+            else if(cmd[0].equals("mkdir"))     Commands.makeDirectory(file,cmd[1]);
         }
 
 

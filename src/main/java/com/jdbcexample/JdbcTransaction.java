@@ -1,5 +1,7 @@
 package com.jdbcexample;
 
+import com.mysql.jdbc.Driver;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,27 +16,31 @@ public class JdbcTransaction {
 
         try {
             // Step 1: Load the JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
+           // Class.forName("com.mysql.cj.jdbc.Driver");
+          //  Class.forName("com.mysql.cj.jdbc.Driver");
+
+            com.mysql.cj.jdbc.Driver driver = new com.mysql.cj.jdbc.Driver();
 
             // Step 2: Establish the connection to the database
-            String url = "jdbc:mysql://localhost:3306/testdb";
-            String username = "testuser";
-            String password = "testpass";
+            String url = "jdbc:mysql://localhost:3306/jdbctest";
+            String username = "root";
+            String password = "tolga123";
             conn = DriverManager.getConnection(url, username, password);
 
             // Step 3: Disable auto-commit mode
             conn.setAutoCommit(false);
 
             // Step 4: Create the prepared statements
-            String sql1 = "INSERT INTO Employees (name, age, salary) VALUES (?, ?, ?)";
+            String sql1 = "INSERT INTO Person (id, name) VALUES (?, ?)";
             stmt1 = conn.prepareStatement(sql1);
-            stmt1.setString(1, "Jane");
-            stmt1.setInt(2, 35);
-            stmt1.setDouble(3, 50000);
+            stmt1.setInt(1, 666);
+            stmt1.setString(2, "Yaz");
 
-            String sql2 = "INSERT INTO Departments (name) VALUES (?)";
+
+            String sql2 = "INSERT INTO Person (id,name) VALUES (?,?)";
             stmt2 = conn.prepareStatement(sql2);
-            stmt2.setString(1, "HR");
+            stmt2.setInt(1,888);
+            stmt2.setString(2, "Dev");
 
             // Step 5: Execute the prepared statements
             stmt1.executeUpdate();
@@ -42,9 +48,9 @@ public class JdbcTransaction {
 
             // Step 6: Commit the transaction
             conn.commit();
-        } catch (ClassNotFoundException e) {
+        //}  catch (ClassNotFoundException e) {
             // Could not find the database driver
-            e.printStackTrace();
+          //  e.printStackTrace();
         } catch (SQLException e) {
             // An error occurred while working with the database
             e.printStackTrace();

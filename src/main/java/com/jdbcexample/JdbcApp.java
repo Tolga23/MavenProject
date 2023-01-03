@@ -1,6 +1,8 @@
 package com.jdbcexample;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JdbcApp {
     public static void main(String[] args) {
@@ -10,43 +12,34 @@ public class JdbcApp {
 
         try {
             // Load the JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
-
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
             // Establish the connection to the database
-            String url = "jdbc:mysql://localhost:3306/testdb";
-            String username = "testuser";
-            String password = "testpass";
+            String url = "jdbc:mysql://localhost:3306/jdbctest";
+            String username = "root";
+            String password = "tolga123";
             conn = DriverManager.getConnection(url, username, password);
 
             // Create a statement
             stmt = conn.createStatement();
 
             // Execute the query
-            String sql = "SELECT * FROM Employees";
+            String sql = "SELECT * FROM Person";
+
+            String sql1 = "UPDATE Person SET id = id * 1 WHERE id > 0";
+            stmt.executeUpdate(sql1);
+
             rs = stmt.executeQuery(sql);
 
-            /*  String sql = "UPDATE Employees SET salary = salary * 1.1 WHERE age > 30";
-                stmt.executeUpdate(sql);*/
-
-            /*  Create a prepared statement
-            String sql = "SELECT * FROM Employees WHERE age > ?";
-            stmt = conn.prepareStatement(sql);
-
-            // Bind values to the placeholders
-            stmt.setInt(1, 30);
-
-            // Execute the prepared statement
-            rs = stmt.execute Query();
-            * */
-
             // Step 5: Process the results
+            List<Person> personList = new ArrayList<>();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-                int age = rs.getInt("age");
-                double salary = rs.getDouble("salary");
-                System.out.println("ID: " + id + ", Name: " + name + ", Age: " + age + ", Salary: " + salary);
+                System.out.println("ID: " + id + ", Name: " + name);
+                Person person = new Person(id,name);
+                personList.add(person);
+
             }
         } catch (ClassNotFoundException e) {
             // Could not find the database driver
