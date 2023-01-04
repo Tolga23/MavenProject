@@ -7,6 +7,8 @@ public class Actor {
     private String firstName;
     private String lastName;
     private Date lastUpdate;
+    private int total;
+
 
     @Override
     public String toString() {
@@ -14,7 +16,7 @@ public class Actor {
                 "actorId=" + actorId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", lastUpdate=" + lastUpdate +
+                ", total=" + total +
                 '}';
     }
 
@@ -48,5 +50,13 @@ public class Actor {
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
     }
 }

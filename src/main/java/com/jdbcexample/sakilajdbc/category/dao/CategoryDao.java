@@ -1,5 +1,6 @@
 package com.jdbcexample.sakilajdbc.category.dao;
 
+import com.jdbcexample.sakilajdbc.SpecialException;
 import com.jdbcexample.sakilajdbc.category.domain.Category;
 
 import java.sql.*;
@@ -107,31 +108,20 @@ public class CategoryDao {
 
     public int saveCategory(Category category) {
 
-        String sql;
+        String sql = "insert into category " +
+                     "       (name, last_update)" +
+                     "values (?, ?)";
 
-        if (category.getCategoryId() < 1) {
-            sql =
-                    "insert into category " +
-                            "       (name, last_name, last_update)" +
-                            "values (?, ?, ?)";
-        } else {
-            sql =
-                    "update category " +
-                            "set    name = ?, " +
-                            "       last_update = ? " +
-                            "where  category_id = ?";
-        }
 
         try (Connection connection = DriverManager.getConnection(url, user, password);
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ) {
 
-            preparedStatement.setString(1, category.getCategoryName());
+            preparedStatement.setString(1,category.getCategoryName());
             java.util.Date lastUpdate = category.getLastUpdate();
             Date sqlDate = new Date(lastUpdate.getTime());
             preparedStatement.setDate(2, sqlDate);
 
-            if (category.getCategoryId() > 0) preparedStatement.setInt(3, category.getCategoryId());
 
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
